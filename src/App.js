@@ -20,7 +20,7 @@ function App() {
 	var handleFiles = file => {
 		var sixtyfour = trim(file.base64);
 		var filestring = sixtyFourToString(sixtyfour);
-		var filename = file.fileList.item(0).name
+		var filename = file.fileList.item(0).name;
 		// console.log(sixtyfour);
 		
 		// console.log(filestring);
@@ -34,8 +34,8 @@ function App() {
 		<div>
 			<ReactFileReader fileTypes="" base64={true} multiple={false} handleFiles={handleFiles}>
 				<button className='btn'>Upload</button><br/>
-				<p id="desc"></p>
 			</ReactFileReader>
+			<p id="desc"></p>
 		</div>
 	);
 }
