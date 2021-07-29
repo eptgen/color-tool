@@ -17,14 +17,15 @@ function App() {
 		return sixtyfour.slice(sixtyfour.search(",") + 1);
 	}
 	
-	var handleFiles = files => {
-		var sixtyfour = trim(files.base64);
+	var handleFiles = file => {
+		var sixtyfour = trim(file.base64);
 		var filestring = sixtyFourToString(sixtyfour);
+		var filename = file.fileList.item(0).name
 		// console.log(sixtyfour);
 		
 		// console.log(filestring);
 		
-		var printString = "There are " + filestring.charCodeAt(4) + " PRG block(s) and " + filestring.charCodeAt(5) + " CHR block(s) in this ROM.";
+		var printString = "There are " + filestring.charCodeAt(4) + " PRG block(s) and " + filestring.charCodeAt(5) + " CHR block(s) in \"" + filename + "\".";
 		console.log(printString);
 		document.getElementById("desc").innerHTML = printString;
 	}
