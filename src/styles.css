@@ -1,0 +1,210 @@
+#logo {
+    text-align: center;
+    font-size: 40px;
+    padding: 10px;
+    padding-top: 15px;
+    font-family: monospace;
+}
+
+nav {
+	text-align: center;
+    font-size: 20px;
+    font-family: monospace;
+    background-color: lavender;
+}
+
+nav ul li {
+	display: inline;
+	padding-left: 55px;
+	padding-right: 55px;
+}
+
+nav a {
+    color: #333;
+    text-decoration: none;
+}
+
+nav a:hover {
+    color: purple;
+}
+
+#main-content {
+    font-family: monospace;
+    font-size: 30px;
+    padding-left: 30px;
+    padding-top: 20px;
+}
+
+#description p {
+    font-size: 13px;
+    font-family: 'Merriweather';
+    line-height: 1.5;
+    color: #696969;
+    padding-left: 30px;
+    padding-top: 10px;
+    text-align: left;
+}
+
+#main-content1 {
+    font-family: monospace;
+    font-size: 30px;
+    text-align: center;
+    padding-top: 40px;
+}
+
+#main-content2 {
+    font-family: monospace;
+    font-size: 30px;
+    text-align: center;
+    padding-top: 15px;
+    padding-bottom: 10px;
+}
+
+#blackbox p {
+    padding-left: 70px;
+    padding-right: 70px;
+    text-align: center;
+    color: #696969;
+    font-family: "Merriweather";
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+img {
+    border: 2px solid #E6E6FA;
+    border-radius: 4px;
+    padding: 5px;
+    width: 200px;
+    margin-left: 30px;
+}
+
+.grid-container {
+    display: inline-grid;
+    grid-template-columns: auto auto auto auto auto;
+    padding-top: 20px;
+    padding-left: 17%;
+    font-family: 'Merriweather';
+    font-size: 13px;
+    color: #696969;
+}
+
+.grid-item {
+    border: 1px solid #000;
+    padding: 10px;
+    font-size: 13px;
+    text-align: center;
+}
+
+.grid-item a {
+    color: #333;
+    text-decoration: none;
+}
+
+.grid-item a:hover {
+    color: purple;
+    background-color: lavender;
+}
+
+.grid-container2 {
+    display: inline-grid;
+    grid-template-columns: auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto;
+    padding-top: 10px;
+    padding-left: 15px;
+    padding-bottom: 30px;
+    font-family: 'Merriweather';
+    font-size: 10px;
+}
+
+.grid-item2 {
+    border: 1px solid #000;
+    padding: 5px;
+    font-size: 13px;
+    font-family: monospace;
+    color: white;
+    text-align: center;
+}
+
+.grid-item2:hover {
+    border: 1px solid #fff;
+    cursor: pointer;
+}
+
+#subtitle {
+    font-family: monospace;
+    font-size: 20px;
+    padding-left: 20px;
+}
+
+form.example input[type=text] {
+    padding: 5px;
+    margin-top: 15px;
+    margin-left: 20px;
+    font-size: 15px;
+    font-family: monospace;  
+    border: 1px solid lavender;
+    width: 250px;
+}
+
+form.example button {
+    padding: 5px;
+    background: lavender;
+    color: grey;
+    font-size: 15px;
+    font-family: monospace;
+    border: 1px solid lavender;
+}
+
+form.example button:hover {
+    background: #DFB8DF;
+    color: white;
+}
+
+label {
+    background-color: lavender;
+    color: grey;
+    padding: 0.3rem;
+    font-family: monospace;
+    font-size: 15px;
+    border-radius: 0.3rem;
+    cursor: pointer;
+    margin-top: 1rem;
+    border: 1px solid lavender;
+}
+
+label:hover {
+    background: #DFB8DF;
+    color: white;
+}
+
+#subtitle1 {
+    font-family: monospace;
+    font-size: 15px;
+    display: inline;
+}
+
+.grid-container3 {
+    display: grid;
+    grid-template-columns: auto auto auto auto auto;
+    padding-top: 10px;
+    padding-left: 15px;
+    padding-bottom: 30px;
+    font-family: 'Merriweather';
+    font-size: 10px;
+    padding-right: 100%;
+    padding-top: 0px;
+    padding-bottom: 10px;
+}
+
+.grid-item3 {
+    font-family: monospace;
+    font-size: 10px;
+    padding-right: 10px;
+    text-align: center;
+}
+
+footer {
+    width: 100%;
+    text-align: center;
+    color: #fff;
+}
+
