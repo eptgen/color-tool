@@ -4,6 +4,7 @@ import "./breakpoints.css";
 import './styles.css';
 
 var $ = require("jquery");
+var fileDownload = require("js-file-download");
 
 function App() {
 	const [palettesFound, setPalettesFound] = useState([]);
@@ -174,6 +175,7 @@ function App() {
 	}
 	
 	var download = () => {
+		fileDownload("hello", "hello.txt");
 	}
 	
 	var search = () => {
@@ -277,7 +279,7 @@ function App() {
 	</div>
     
     <form class="example" style={{"display": "inline-block"}}>
-        <button type="submit" onClick={download}><i class="fa fa-search"></i>Save</button>
+        <button type="submit"><i class="fa fa-search"></i>Save</button>
     </form>
     
     <div class="grid-container2" style={{"float": right, "paddingRight": "100px"}}>
@@ -303,10 +305,8 @@ function App() {
         <p>Choose either option to save your new game! If you choose to download to our database, it would allow other users access and play your game. Thank you!</p>
     </section>
     
-    <form class="example" style={{"display": "inline-block"}}>
-        <button type="submit"><i class="fa fa-search"></i>Download to Your Device</button>
-        <button type="submit"><i class="fa fa-search"></i>Download to Our Database</button>
-    </form>
+	<button type="submit" onClick={download}><i class="fa fa-search"></i>Download to Your Device</button>
+	<button type="submit"><i class="fa fa-search"></i>Download to Our Database</button>
 
     <footer>
             Summer Research, 2021. 
