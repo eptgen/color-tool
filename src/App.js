@@ -7,7 +7,9 @@ var $ = require("jquery");
 
 function App() {
 	const [palettesFound, setPalettesFound] = useState([]);
+	const [currentPalettes, setCurrentPalettes] = useState([]);
 	const [el, setEl] = useState(null);
+	const [filebytes, setFilebytes] = useState("");
 	
 	var sixtyFourToString = sixtyfour => {
 		var raw = atob(sixtyfour);
@@ -104,22 +106,37 @@ function App() {
 		return textColors[byt];
 	}
 	
-	var firstClicked = e => {
-		setEl($(e.target));
+	var firstClicked = (e, paletteNum, colorNum) => {
+		setEl([paletteNum, colorNum]);
 	}
 	
-	var secondClicked = e => {
+	var secondClicked = (e, color) => {
+		// console.log(palettesFound);
+		setCurrentPalettes(before => {
+			var result = [...before];
+			// console.log(result);
+			result[el[0]].data[el[1] + 3] = color;
+			return result;
+		});
+	}
+	
+	var getPickerElement = num => {
+		return (
+		<div onClick={e => secondClicked(e, num)} className="grid-item2" style={{backgroundColor: getNesColor(num), color: getTextColor(num)}}>
+			{num.toString(16).toUpperCase().padStart(2, "0")}
+		</div>);
 	}
 	
 	var getPaletteElement = isBefore => {
-		return (palette => {
+		return ((palette, paletteNum) => {
+			var paletteData = palette.data;
 			return (
 				<div className="grid-container3">
 				{
-					palette.filter((e, i) => i >= 3).map(color => {
+					paletteData.filter((e, i) => i >= 3).map((color, colorNum) => {
 						var clickHandle = (e => {});
 						if (!isBefore) {
-							clickHandle = (e => firstClicked(e));
+							clickHandle = (e => firstClicked(e, paletteNum, colorNum));
 						}
 						return (<div onClick={clickHandle} className="grid-item2" style={{backgroundColor: getNesColor(color), color: getTextColor(color)}}>
 							{color.toString(16).toUpperCase().padStart(2, "0")}
@@ -145,11 +162,16 @@ function App() {
 		var prgEnd = prgOffset + trainerOffset + header;
 		
 		var palettes = findPalettes(filestring);
+		setFilebytes(filestring);
 		palettes = palettes.filter(palette => palette.loc <= prgEnd);
+		// console.log(palettes.length);
 		
-		console.log(palettes.length);
-		
-		setPalettesFound(palettes.map(palette => palette.data));
+		var stringCopy = JSON.stringify(palettes);
+		setPalettesFound(JSON.parse(stringCopy));
+		setCurrentPalettes(JSON.parse(stringCopy));
+	}
+	
+	var download = () => {
 	}
 	
 	var auto = "auto";
@@ -203,6 +225,13 @@ function App() {
         <input type="text" placeholder="Search Games.." name="search" />
         <button type="submit"><i class="fa fa-search"></i>Go</button>
         </form>
+		
+		<p style= {{"fontFamily": "monospace", "paddingLeft": "100px"}}>Results Found</p>
+        <ol style= {{"fontFamily": monospace, "fontSize": "15px"}}>
+            <li>game #1 (clickable to upload)</li>
+            <li>game #2</li>
+            <li>game #3</li>
+        </ol>
     </div>
         
     <div style={{float: "left", "paddingLeft": "100px", "paddingTop": "5px"}}>
@@ -235,80 +264,17 @@ function App() {
     <div id="after" style={{display: "inline-block", float: left, "paddingLeft": "10px"}}>
 		<section id="subtitle1" style={{"paddingLeft": "70px"}}>After</section>
 		
-		{palettesFound.map(getPaletteElement(false))}
+		{currentPalettes.map(getPaletteElement(false))}
 		
     </div>
 	</div>
     
     <form class="example" style={{"display": "inline-block"}}>
-        <button type="submit"><i class="fa fa-search"></i>Save</button>
+        <button type="submit" onClick={download}><i class="fa fa-search"></i>Save</button>
     </form>
     
     <div class="grid-container2" style={{"float": right, "paddingRight": "100px"}}>
-        <div class="grid-item2 second" style = {{"backgroundColor":"#545354"}}>00</div>
-        <div class="grid-item2 second" style = {{"backgroundColor":"#071e70"}}>01</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#090f8a"}}>02</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#2c0381"}}>03</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#3e0660"}}>04</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#540c30"}}>05</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#4c0e06"}}>06</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#371a04"}}>07</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#232a07"}}>08</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#183a0b"}}>09</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#183f0c"}}>0A</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#153b0a"}}>0B</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#12313a"}}>0C</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#010100"}}>0D</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#010100"}}>0E</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#010100"}}>0F</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#989698"}}>10</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#214abd"}}>11</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#3032e2"}}>12</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#5523db"}}>13</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#7c20a9"}}>14</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#932562"}}>15</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#8c2d27"}}>16</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#703f13"}}>17</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#565919"}}>18</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#3d701d"}}>19</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#367a20"}}>1A</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#337433"}}>1B</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#2b6575"}}>1C</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#000001"}}>1D</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#000001"}}>1E</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#010100"}}>1F</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#edeeec", color: "black"}}>20</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#6098e6"}}>21</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#797ce5"}}>22</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#a666e4"}}>23</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#d35ee5"}}>24</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#da62b1"}}>25</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#dc7169"}}>26</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#ca8c3a"}}>27</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#a1aa35"}}>28</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#87c23b"}}>29</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#73cd46"}}>2A</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#68c976"}}>2B</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#5fb1ca"}}>2C</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#3b3b3d"}}>2D</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#000000"}}>2E</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#010100"}}>2F</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#edeeec", color: "black"}}>30</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#afcbe9", color: "black"}}>31</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#bcbde8", color: "black"}}>32</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#cfb3e8", color: "black"}}>33</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#ebaeec", color: "black"}}>34</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#ebaed4", color: "black"}}>35</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#e4b6b2", color: "black"}}>36</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#dfc597", color: "black"}}>37</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#ccd183", color: "black"}}>38</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#bddd84", color: "black"}}>39</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#b4e099", color: "black"}}>3A</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#a8e1b8", color: "black"}}>3B</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#abd5e2", color: "black"}}>3C</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#a0a1a0", color: "black"}}>3D</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#000001"}}>3E</div>
-        <div class="grid-item2 second" style = {{"backgroundColor": "#010100"}}>3F</div>
+		{[...Array(64).keys()].map(getPickerElement)}
     </div>
     
     <form class="example" style={{"display": "inline-block"}}>
