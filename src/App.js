@@ -12,6 +12,7 @@ function App() {
 	const [el, setEl] = useState(null);
 	const [filebytes, setFilebytes] = useState("");
 	const [searchResults, setSearchResults] = useState([]);
+	const [filename, setFilename] = useState("");
 	
 	var sixtyFourToString = sixtyfour => {
 		var raw = atob(sixtyfour);
@@ -154,7 +155,7 @@ function App() {
 	var handleFiles = file => {
 		var sixtyfour = trim(file.base64);
 		var filestring = sixtyFourToString(sixtyfour);
-		var filename = file.fileList.item(0).name;
+		setFilename(file.fileList.item(0).name);
 		// console.log(sixtyfour);
 		
 		// console.log(filestring);
@@ -171,11 +172,38 @@ function App() {
 		
 		var stringCopy = JSON.stringify(palettes);
 		setPalettesFound(JSON.parse(stringCopy));
-		setCurrentPalettes(JSON.parse(stringCopy));
+		setCurrentPalettes(JSON.parse(stringCopy)); // create copies of `palettes` variable
 	}
 	
 	var download = () => {
-		fileDownload("hello", "hello.txt");
+		var result = "";
+		
+		var sortedPalettes = JSON.parse(JSON.stringify(currentPalettes));
+		sortedPalettes.sort((a, b) => a.loc - b.loc);
+		// console.log(sortedPalettes);
+		
+		var lastInd = 0;
+		for (var i = 0; i < sortedPalettes.length; i++) {
+			var ind = sortedPalettes[i].loc;
+			result += filebytes.substring(lastInd, ind);
+			for (var j = 0; j < sortedPalettes[i].data.length; j++) {
+				result += String.fromCharCode(sortedPalettes[i].data[j])
+			}
+			lastInd = ind + sortedPalettes[i].data.length; // starting from where the last palette ended
+			console.log(result.length);
+		}
+		// console.log(lastInd);
+		result += filebytes.substring(lastInd);
+		// console.log(result.length);
+		
+		var u8 = new Uint8Array(result.length)
+		
+		// Copy over all the values
+		for(var i = 0; i < result.length; i++){
+		  u8[i] = result.charCodeAt(i)
+		}
+		
+		fileDownload(new Blob([u8], {type: "application/octet-stream"}), filename);
 	}
 	
 	var search = () => {
