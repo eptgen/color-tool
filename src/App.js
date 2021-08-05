@@ -7,6 +7,7 @@ var $ = require("jquery");
 
 function App() {
 	const [palettesFound, setPalettesFound] = useState([]);
+	const [el, setEl] = useState(null);
 	
 	var sixtyFourToString = sixtyfour => {
 		var raw = atob(sixtyfour);
@@ -104,7 +105,10 @@ function App() {
 	}
 	
 	var firstClicked = e => {
-		console.log($(e.which).html());
+		setEl($(e.target));
+	}
+	
+	var secondClicked = e => {
 	}
 	
 	var getPaletteElement = isBefore => {
@@ -114,7 +118,7 @@ function App() {
 				{
 					palette.filter((e, i) => i >= 3).map(color => {
 						var clickHandle = (e => {});
-						if (isBefore) {
+						if (!isBefore) {
 							clickHandle = (e => firstClicked(e));
 						}
 						return (<div onClick={clickHandle} className="grid-item2" style={{backgroundColor: getNesColor(color), color: getTextColor(color)}}>
@@ -148,10 +152,15 @@ function App() {
 		setPalettesFound(palettes.map(palette => palette.data));
 	}
 	
+	var auto = "auto";
+	var border = "border";
+	var color = "color";
+	var display = "display";
+	var height = "height";
 	var left = "left";
 	var monospace = "monospace";
 	var right = "right";
-	var color = "color";
+	var width = "width";
 	
 	/*
 	return (
@@ -214,6 +223,8 @@ function App() {
     
     <section id="subtitle1">NES Color Grid</section>
     
+	<div style={{display: "inline-block", "float": left, "paddingLeft": "5px", "marginLeft": "20px", height: "250px", width: "400px", border: "1px solid #ccc", "overflow": auto}}>
+	
     <div id="before" style={{display: "inline-block", float: left, "paddingLeft": "15px"}}>
 		<section id="subtitle1" style={{"paddingLeft": "70px"}}>Before</section>
 		
@@ -227,6 +238,7 @@ function App() {
 		{palettesFound.map(getPaletteElement(false))}
 		
     </div>
+	</div>
     
     <form class="example" style={{"display": "inline-block"}}>
         <button type="submit"><i class="fa fa-search"></i>Save</button>
