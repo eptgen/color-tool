@@ -10,6 +10,7 @@ function App() {
 	const [currentPalettes, setCurrentPalettes] = useState([]);
 	const [el, setEl] = useState(null);
 	const [filebytes, setFilebytes] = useState("");
+	const [searchResults, setSearchResults] = useState([]);
 	
 	var sixtyFourToString = sixtyfour => {
 		var raw = atob(sixtyfour);
@@ -132,6 +133,7 @@ function App() {
 			var paletteData = palette.data;
 			return (
 				<div className="grid-container3">
+				<p>Hi</p>
 				{
 					paletteData.filter((e, i) => i >= 3).map((color, colorNum) => {
 						var clickHandle = (e => {});
@@ -172,6 +174,11 @@ function App() {
 	}
 	
 	var download = () => {
+	}
+	
+	var search = () => {
+		console.log("searching!");
+		// $("#search")
 	}
 	
 	var auto = "auto";
@@ -281,10 +288,8 @@ function App() {
         <button type="submit"><i class="fa fa-search"></i>Apply</button>
     </form>
     
-    <form class="example" style={{"display": "inline-block"}}>
-        <input type="text" placeholder="Search Palettes..." name="search" />
-        <button type="submit"><i class="fa fa-search"></i>Go</button>
-    </form>
+	<input id="search" type="text" placeholder="Search Palettes..." name="search" />
+	<button onClick={search}><i class="fa fa-search"></i>Go</button>
     
     <section id="subtitle" style={{"paddingTop": "300px"}}>3. Testing Screen</section>
     
