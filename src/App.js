@@ -17,7 +17,7 @@ function App() {
 
 		for (var i = 0; i < raw.length; i++) {
 			result += String.fromCharCode(raw.charCodeAt(i));
-		} 
+		}
 
 		return result;
 	}
