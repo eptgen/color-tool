@@ -266,6 +266,11 @@ function App() {
 
 	<div style={{display: "inline-block", "float": left, "paddingLeft": "5px", "marginLeft": "20px", height: "250px", width: "400px", border: "1px solid #ccc", "overflow": auto}}>
 
+	<div id="loc" style={{display: "inline-block", float: left, "paddingLeft": "15px"}}>
+	<section id="subtitle1" style={{"paddingLeft": "70px"}}>Location</section>
+
+	{palettesFound.map(getPaletteElement(true))}
+
     <div id="before" style={{display: "inline-block", float: left, "paddingLeft": "15px"}}>
 		<section id="subtitle1" style={{"paddingLeft": "70px"}}>Before</section>
 
