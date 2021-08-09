@@ -3,6 +3,9 @@ import { useState, useRef } from 'react';
 import "./breakpoints.css";
 import './styles.css';
 import reverseVals from './testFunction';
+import renderDownload from './download';
+import renderBeforeAfter from './beforeafter';
+import renderSearch from './paletteSearch';
 
 var $ = require("jquery");
 var fileDownload = require("js-file-download");
@@ -110,7 +113,7 @@ function App() {
 	var getTextColor = byt => {
 		return textColors[byt];
 	}
-
+	
 	var firstClicked = (e, paletteNum, colorNum) => {
 		setEl([paletteNum, colorNum]);
 	}
@@ -124,46 +127,13 @@ function App() {
 			return result;
 		});
 	}
-
+	
 	var getPickerElement = num => {
 		return (
 		<div onClick={e => secondClicked(e, num)} className="grid-item2" style={{backgroundColor: getNesColor(num), color: getTextColor(num)}}>
 			{num.toString(16).toUpperCase().padStart(2, "0")}
 		</div>);
 	}
-
-	var getPaletteElement = isBefore => {
-		return ((palette, paletteNum) => {
-			var paletteData = palette.data;
-			return (
-				<div className="grid-container3">
-				{
-					paletteData.filter((e, i) => i >= 3).map((color, colorNum) => {
-						var clickHandle = (e => {});
-						if (!isBefore) {
-							clickHandle = (e => firstClicked(e, paletteNum, colorNum));
-						}
-						return (<div onClick={clickHandle} className="grid-item2" style={{backgroundColor: getNesColor(color), color: getTextColor(color)}}>
-							{color.toString(16).toUpperCase().padStart(2, "0")}
-						</div>)
-					})
-				}
-				</div>
-			);
-		});
-	}
-
-	var getPaletteLoc = pal => {
-		return ((palette, paletteNum) => {
-			var paletteLoc = palette.loc;
-			return (
-				<div className="grid-container3">
-				{paletteLoc}
-			</div>)
-		}
-		)
-	}
-
 
 	var handleFiles = file => {
 		var sixtyfour = trim(file.base64);
@@ -186,46 +156,6 @@ function App() {
 		var stringCopy = JSON.stringify(palettes);
 		setPalettesFound(JSON.parse(stringCopy));
 		setCurrentPalettes(JSON.parse(stringCopy));
-	}
-
-	var download = () => {
-		var result = "";
-		
-		var sortedPalettes = JSON.parse(JSON.stringify(currentPalettes));
-		sortedPalettes.sort((a, b) => a.loc - b.loc);
-		// console.log(sortedPalettes);
-		
-		var lastInd = 0;
-		for (var i = 0; i < sortedPalettes.length; i++) {
-			var ind = sortedPalettes[i].loc;
-			result += filebytes.substring(lastInd, ind);
-			for (var j = 0; j < sortedPalettes[i].data.length; j++) {
-				result += String.fromCharCode(sortedPalettes[i].data[j])
-			}
-			lastInd = ind + sortedPalettes[i].data.length; // starting from where the last palette ended
-			console.log(result.length);
-		}
-		// console.log(lastInd);
-		result += filebytes.substring(lastInd);
-		// console.log(result.length);
-		
-		// Copy over all the values into an array so the data doesn't get
-		// corrupted
-		var u8 = new Uint8Array(result.length)
-		
-		for(var i = 0; i < result.length; i++){
-		  u8[i] = result.charCodeAt(i)
-		}
-		
-		fileDownload(new Blob([u8], {type: "application/octet-stream"}), filename);
-	}
-
-	var search = () => {
-		const vals = searchTermsRef.current.value;
-		if (vals === '') return;
-		reverseVals(vals);
-		console.log(reverseVals(vals));
-		searchTermsRef.current.value = null;
 	}
 
 	var auto = "auto";
@@ -305,33 +235,11 @@ function App() {
     </section>
 
     <section id="subtitle1">NES Color Grid</section>
-
-	<div style={{display: "inline-block", "float": left, "paddingLeft": "5px", "marginLeft": "20px", height: "500px", width: "800px", border: "1px solid #ccc", "overflow-y": auto}}>
-
-		<div id="loc" style={{float: left}}>
-		<section id="subtitle1">Location</section>
-
-		{palettesFound.map(getPaletteLoc())}
-
-		</div>
-
-    <div id="before" style={{display: "inline-block", float: left, "paddingLeft": "15px"}}>
-		<section id="subtitle1" style={{"paddingLeft": "70px"}}>Before</section>
-
-		{palettesFound.map(getPaletteElement(true))}
-
-    </div>
-
-    <div id="after" style={{display: "inline-block", float: left, "paddingLeft": "10px"}}>
-		<section id="subtitle1" style={{"paddingLeft": "70px"}}>After</section>
-
-		{currentPalettes.map(getPaletteElement(false))}
-
-	</div>
-	</div>
+	
+	{renderBeforeAfter(palettesFound, currentPalettes, firstClicked, secondClicked, getNesColor, getTextColor)}
 
     <form class="example" style={{"display": "inline-block"}}>
-        <button type="submit" onClick={download}><i class="fa fa-search"></i>Save</button>
+        <button type="submit"><i class="fa fa-search"></i>Save</button>
     </form>
 
     <div class="grid-container2" style={{"float": right, "paddingRight": "100px"}}>
@@ -342,8 +250,7 @@ function App() {
         <button type="submit"><i class="fa fa-search"></i>Apply</button>
     </form>
 
-	<input id="search" ref={searchTermsRef} type="text" placeholder="Search Palettes..." name="search" />
-	<button onClick={search}><i class="fa fa-search"></i>Go</button>
+	{renderSearch(searchTermsRef, setCurrentPalettes, getNesColor, getTextColor, searchResults, setSearchResults)}
 
     <section id="subtitle" style={{"paddingTop": "300px"}}>3. Testing Screen</section>
 
@@ -357,7 +264,7 @@ function App() {
         <p>Choose either option to save your new game! If you choose to download to our database, it would allow other users access and play your game. Thank you!</p>
     </section>
 
-	<button onClick={download}><i class="fa fa-search"></i>Download to Your Device</button>
+	{renderDownload(currentPalettes, filename, filebytes)}
 	<button><i class="fa fa-search"></i>Download to Our Database</button>
 
     <footer>
