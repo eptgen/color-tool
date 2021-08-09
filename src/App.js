@@ -135,7 +135,6 @@ function App() {
 			var paletteData = palette.data;
 			return (
 				<div className="grid-container3">
-				<p>Hi</p>
 				{
 					paletteData.filter((e, i) => i >= 3).map((color, colorNum) => {
 						var clickHandle = (e => {});
@@ -151,6 +150,18 @@ function App() {
 			);
 		});
 	}
+
+	var getPaletteLoc = pal => {
+		return ((palette, paletteNum) => {
+			var paletteLoc = palette.loc;
+			return (
+				<div className="grid-container3">
+				{paletteLoc}
+			</div>)
+		}
+		)
+	}
+
 
 	var handleFiles = file => {
 		var sixtyfour = trim(file.base64);
@@ -264,7 +275,14 @@ function App() {
 
     <section id="subtitle1">NES Color Grid</section>
 
-	<div style={{display: "inline-block", "float": left, "paddingLeft": "5px", "marginLeft": "20px", height: "250px", width: "400px", border: "1px solid #ccc", "overflow": auto}}>
+	<div style={{display: "inline-block", "float": left, "paddingLeft": "5px", "marginLeft": "20px", height: "500px", width: "800px", border: "1px solid #ccc", "overflow-y": auto}}>
+
+		<div id="loc" style={{float: left}}>
+		<section id="subtitle1">Location</section>
+
+		{palettesFound.map(getPaletteLoc())}
+
+		</div>
 
     <div id="before" style={{display: "inline-block", float: left, "paddingLeft": "15px"}}>
 		<section id="subtitle1" style={{"paddingLeft": "70px"}}>Before</section>
