@@ -80,7 +80,7 @@ img {
 
 .grid-container {
     display: inline-grid;
-    grid-template-columns: auto auto auto auto auto;
+    grid-template-columns: auto auto auto auto auto auto auto auto;
     padding-top: 20px;
     padding-left: 17%;
     font-family: 'Merriweather';
@@ -149,7 +149,7 @@ form.example input[type=text] {
     margin-top: 15px;
     margin-left: 20px;
     font-size: 15px;
-    font-family: monospace;  
+    font-family: monospace;
     border: 1px solid lavender;
     width: 250px;
 }
@@ -193,7 +193,7 @@ label:hover {
 
 .grid-container3 {
     display: grid;
-    grid-template-columns: auto auto auto auto auto;
+    grid-template-columns: auto auto auto auto auto auto auto auto;
     padding-top: 10px;
     padding-left: 15px;
     padding-bottom: 30px;
@@ -211,9 +211,14 @@ label:hover {
     text-align: center;
 }
 
+.grid-container4 {
+  grid-template-columns: auto;
+  font-family: 'Merriweather';
+  font-size: 15px;
+}
+
 footer {
     width: 100%;
     text-align: center;
     color: #fff;
 }
-
