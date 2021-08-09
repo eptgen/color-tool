@@ -196,9 +196,10 @@ function App() {
 		result += filebytes.substring(lastInd);
 		// console.log(result.length);
 		
+		// Copy over all the values into an array so the data doesn't get
+		// corrupted
 		var u8 = new Uint8Array(result.length)
 		
-		// Copy over all the values
 		for(var i = 0; i < result.length; i++){
 		  u8[i] = result.charCodeAt(i)
 		}
