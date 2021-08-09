@@ -315,11 +315,6 @@ function App() {
 
 		</div>
 
-	<div id="loc" style={{display: "inline-block", float: left, "paddingLeft": "15px"}}>
-	<section id="subtitle1" style={{"paddingLeft": "70px"}}>Location</section>
-
-	{palettesFound.map(getPaletteElement(true))}
-
     <div id="before" style={{display: "inline-block", float: left, "paddingLeft": "15px"}}>
 		<section id="subtitle1" style={{"paddingLeft": "70px"}}>Before</section>
 
@@ -332,7 +327,6 @@ function App() {
 
 		{currentPalettes.map(getPaletteElement(false))}
 
-    </div>
 	</div>
 	</div>
 
