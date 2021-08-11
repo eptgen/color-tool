@@ -250,7 +250,7 @@ function App() {
         <button type="submit"><i class="fa fa-search"></i>Apply</button>
     </form>
 
-	{renderSearch(searchTermsRef, setCurrentPalettes, getNesColor, getTextColor, searchResults, setSearchResults)}
+	{renderSearch(searchTermsRef, setCurrentPalettes, getNesColor, getTextColor, searchResults, setSearchResults, filebytes)}
 
     <section id="subtitle" style={{"paddingTop": "300px"}}>3. Testing Screen</section>
 
