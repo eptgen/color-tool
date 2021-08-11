@@ -154,7 +154,15 @@ function App() {
 		palettes = palettes.filter(palette => palette.loc <= prgEnd);
 		// console.log(palettes.length);
 
-		var stringCopy = JSON.stringify(palettes);
+		var toMakePalettes = palettes.map(palette => {
+			var result = {};
+			result.loc = palette.loc + 3;
+			result.data = palette.data.filter((e, i) => i >= 3);
+			return result;
+		});
+		
+		// making copies of the palette
+		var stringCopy = JSON.stringify(toMakePalettes);
 		setPalettesFound(JSON.parse(stringCopy));
 		setCurrentPalettes(JSON.parse(stringCopy));
 	}
