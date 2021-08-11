@@ -18,14 +18,7 @@ export default function renderSearch(searchTermsRef, setCurrentPalettes, getNesC
 		console.log(searchRes);
 		
 		for (var i = 0; i < searchRes.length; i++) {
-			var paletteData = [0, 0, 0];
-			var toAdd = {loc: searchRes[i].loc}
-			var splitted = searchRes[i].data.split(" ");
-			for (var j = 0; j < splitted.length; j++) {
-				paletteData.push(parseInt(splitted[j], 16));
-			}
-			toAdd.data = paletteData;
-			addToSearchResults(toAdd);
+			addToSearchResults(searchRes[i]);
 		}
 		searchTermsRef.current.value = null;
 	};
