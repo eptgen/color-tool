@@ -2,10 +2,11 @@ import ReactFileReader from 'react-file-reader';
 import { useState, useRef } from 'react';
 import "./breakpoints.css";
 import './styles.css';
-import reverseVals from './testFunction';
+import stringSearch from './byteSearch';
 import renderDownload from './download';
 import renderBeforeAfter from './beforeafter';
 import renderSearch from './paletteSearch';
+import manualSearch from './manualSearch.js'; //here
 
 var $ = require("jquery");
 var fileDownload = require("js-file-download");
@@ -18,6 +19,10 @@ function App() {
 	const [searchResults, setSearchResults] = useState([]);
 	const [filename, setFilename] = useState("");
 	const searchTermsRef = useRef();
+	const [manual, setManual] = useState({
+		address: "",
+		numBytes: ""
+	})
 
 	var sixtyFourToString = sixtyfour => {
 		var raw = atob(sixtyfour);
@@ -113,7 +118,7 @@ function App() {
 	var getTextColor = byt => {
 		return textColors[byt];
 	}
-	
+
 	var firstClicked = (e, paletteNum, colorNum) => {
 		setEl([paletteNum, colorNum]);
 	}
@@ -127,7 +132,7 @@ function App() {
 			return result;
 		});
 	}
-	
+
 	var getPickerElement = num => {
 		return (
 		<div onClick={e => secondClicked(e, num)} className="grid-item2" style={{backgroundColor: getNesColor(num), color: getTextColor(num)}}>
@@ -139,9 +144,6 @@ function App() {
 		var sixtyfour = trim(file.base64);
 		var filestring = sixtyFourToString(sixtyfour);
 		setFilename(file.fileList.item(0).name);
-		// console.log(sixtyfour);
-
-		// console.log(filestring);
 
 		var prgOffset = (filestring.charCodeAt(4)) * 16384;
 		var trainerOffset = ((filestring.charCodeAt(6) / 4) % 2) * 512;
@@ -156,6 +158,21 @@ function App() {
 		var stringCopy = JSON.stringify(palettes);
 		setPalettesFound(JSON.parse(stringCopy));
 		setCurrentPalettes(JSON.parse(stringCopy));
+	}
+
+	// manualSearch stuff:
+	function handleChange(evt) {
+		const value = evt.target.value;
+	  setManual({
+			...manual,
+			[evt.target.name]: value
+		});
+	}
+
+	function handleClick() {
+		var address = manual.address;
+		var numBytes = manual.numBytes;
+		console.log(manualSearch(address, numBytes, filebytes));
 	}
 
 	var auto = "auto";
@@ -180,7 +197,7 @@ function App() {
 		</div>
 	);
 	*/
-	
+
 	return (<>
 	<header>
         <section id="logo" style={{"textAlign": "center"}}>NES Color Tool</section>
@@ -235,7 +252,7 @@ function App() {
     </section>
 
     <section id="subtitle1">NES Color Grid</section>
-	
+
 	{renderBeforeAfter(palettesFound, currentPalettes, firstClicked, secondClicked, getNesColor, getTextColor)}
 
     <form class="example" style={{"display": "inline-block"}}>
@@ -250,9 +267,21 @@ function App() {
         <button type="submit"><i class="fa fa-search"></i>Apply</button>
     </form>
 
-	{renderSearch(searchTermsRef, setCurrentPalettes, getNesColor, getTextColor, searchResults, setSearchResults)}
+	{renderSearch(searchTermsRef, setCurrentPalettes, getNesColor, getTextColor, searchResults, setSearchResults, filebytes)}
 
-    <section id="subtitle" style={{"paddingTop": "300px"}}>3. Testing Screen</section>
+		<div class="bytesearch">
+		<input type="text" placeholder="Enter Address.." name="address" value={manual.address} onChange={handleChange} style={{"marginLeft":"20px"}}></input>
+		<input type="text" placeholder="Number of Bytes.." name="numBytes" value={manual.numBytes} onChange={handleChange} style={{"marginLeft":"20px"}}></input>
+		<button onClick={handleClick}><i class="fa fa-search"></i>Search</button>
+
+		<p style={{"paddingLeft":"50px"}}>Address Result</p>
+		
+		<form class="example" style={{"display": "inline-block", "paddingLeft": "10px"}}>
+		        <button type="submit"><i class="fa fa-search"></i>Add to Customization</button>
+		    </form>
+		</div>
+
+		<section id="subtitle" style={{"paddingTop": "300px"}}>3. Testing Screen</section>
 
     <section id="description">
         <p>Get a chance to test and play your color-hacked game! If you find any abnormalities or any unchanged colors, continue customizing. Otherwise, continue your download! </p>
@@ -271,7 +300,7 @@ function App() {
             Summer Research, 2021.
     </footer>
 	</>);
-	
+
 
 }
 
