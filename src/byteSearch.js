@@ -72,17 +72,22 @@ export default function stringSearch(terms, filebytes) {
     }
   }
 
-  for (var i = 0; i < searchArray.length; i++) {
-    var match = filestring.indexOf(searchArray[i]);
+  let newSearch = [...new Set(searchArray)]; // remove duplicates
+  for (var i = 0; i < newSearch.length; i++) {
+    var match = filestring.indexOf(newSearch[i]);
     output.push({
       loc: ((match/3)-3),
-      data: searchArray[i]
+      data: newSearch[i].split(' ').map(function(num) {
+        return parseInt(num, 16);
+      })
     })
     while (match > -1) {
-      match = filestring.indexOf(searchArray[i], match+1);
+      match = filestring.indexOf(newSearch[i], match+1);
       output.push({
         loc: ((match/3)-3),
-        data: searchArray[i]
+        data: newSearch[i].split(' ').map(function(num) {
+          return parseInt(num, 16);
+        })
       })
     }
     output.pop();

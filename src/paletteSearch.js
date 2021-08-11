@@ -27,7 +27,6 @@ export default function renderSearch(searchTermsRef, setCurrentPalettes, getNesC
 			toAdd.data = paletteData;
 			addToSearchResults(toAdd);
 		}
-		
 		searchTermsRef.current.value = null;
 	};
 	
@@ -45,13 +44,7 @@ export default function renderSearch(searchTermsRef, setCurrentPalettes, getNesC
 	
 	var addNum = num => {
 	}
-	
-	var add = () => {
-	};
-	
-	var addAll = () => {
-	};
-	
+
 	return (<>
 		<input id="search" ref={searchTermsRef} type="text" placeholder="Search Palettes..." name="search" />
 		<button onClick={search}><i class="fa fa-search"></i>Go</button>

@@ -113,7 +113,7 @@ function App() {
 	var getTextColor = byt => {
 		return textColors[byt];
 	}
-	
+
 	var firstClicked = (e, paletteNum, colorNum) => {
 		setEl([paletteNum, colorNum]);
 	}
@@ -127,7 +127,7 @@ function App() {
 			return result;
 		});
 	}
-	
+
 	var getPickerElement = num => {
 		return (
 		<div onClick={e => secondClicked(e, num)} className="grid-item2" style={{backgroundColor: getNesColor(num), color: getTextColor(num)}}>
@@ -180,7 +180,7 @@ function App() {
 		</div>
 	);
 	*/
-	
+
 	return (<>
 	<header>
         <section id="logo" style={{"textAlign": "center"}}>NES Color Tool</section>
@@ -198,29 +198,12 @@ function App() {
 
     <section id="description"><p>Welcome to Our Tool!</p></section>
 
-    <section id="subtitle">1. Search/File Upload</section>
+    <section id="subtitle">1. File Upload</section>
 
     <section id="description">
-        <p>Get started by uploading the game file you want to alter. If you don’t have one or just want to experiment, search through and choose one of our available homebrew games!</p>
+        <p>Get started by uploading the game file you want to alter.</p>
     </section>
 
-    <div style={{float: left, "paddingLeft": "100px"}}>
-        <form class="example" style={{"display": "inline-block"}}>
-        <input type="text" placeholder="Search Games.." name="search" />
-        <button type="submit"><i class="fa fa-search"></i>Go</button>
-        </form>
-
-		<p style= {{"fontFamily": "monospace", "paddingLeft": "100px"}}>Results Found</p>
-        <ol style= {{"fontFamily": monospace, "fontSize": "15px"}}>
-            <li>game #1 (clickable to upload)</li>
-            <li>game #2</li>
-            <li>game #3</li>
-        </ol>
-    </div>
-
-    <div style={{float: "left", "paddingLeft": "100px", "paddingTop": "5px"}}>
-        <p style= {{"fontFamily": "monospace"}}>or</p>
-    </div>
 
     <div style={{float: "left", "paddingLeft": "100px", "paddingTop": "17px"}}>
 		<ReactFileReader fileTypes="" base64={true} multiple={false} handleFiles={handleFiles}>
@@ -234,19 +217,21 @@ function App() {
         <p>Interact with our before and after display of the 4 background and 4 sprite palettes in your game. Click on the specific index of the color you want to change in the ‘after’ column. Then, explore the color grid containing all possible NES colors used in games and choose one to switch your chosen index to.</p>
     </section>
 
-    <section id="subtitle1">NES Color Grid</section>
-	
+    <section id="subtitle1" style = {{"paddingLeft" : "170px"}}>NES Color Grid</section>
+
 	{renderBeforeAfter(palettesFound, currentPalettes, firstClicked, secondClicked, getNesColor, getTextColor)}
 
-    <form class="example" style={{"display": "inline-block"}}>
+	<div class="grid-container2" style={{"float": right, "paddingRight": "10px", "marginTop" : "-10px"}}>
+	{[...Array(64).keys()].map(getPickerElement)}
+	</div>
+
+    <form class="example" style={{"display": "inline-block", "paddingLeft": "150px", "marginTop": "20px"}}>
         <button type="submit"><i class="fa fa-search"></i>Save</button>
     </form>
 
-    <div class="grid-container2" style={{"float": right, "paddingRight": "100px"}}>
-		{[...Array(64).keys()].map(getPickerElement)}
-    </div>
 
-    <form class="example" style={{"display": "inline-block"}}>
+
+    <form class="example" style={{"display": "inline-block", "paddingLeft": "10px"}}>
         <button type="submit"><i class="fa fa-search"></i>Apply</button>
     </form>
 
@@ -265,13 +250,14 @@ function App() {
     </section>
 
 	{renderDownload(currentPalettes, filename, filebytes)}
-	<button><i class="fa fa-search"></i>Download to Our Database</button>
-
+	 <form class="example" style={{"display": "inline-block"}}>
+	<button type="submit"><i class="fa fa-search"></i>Download to Our Database</button>
+  </form>
     <footer>
             Summer Research, 2021.
     </footer>
 	</>);
-	
+
 
 }
 
