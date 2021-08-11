@@ -2,7 +2,6 @@ import ReactFileReader from 'react-file-reader';
 import { useState, useRef } from 'react';
 import "./breakpoints.css";
 import './styles.css';
-import reverseVals from './testFunction';
 import renderDownload from './download';
 import renderBeforeAfter from './beforeafter';
 import renderSearch from './paletteSearch';

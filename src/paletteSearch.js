@@ -43,7 +43,13 @@ export default function renderSearch(searchTermsRef, setCurrentPalettes, getNesC
 	};
 	
 	var addNum = num => {
-	}
+	};
+	
+	var add = () => {
+	};
+	
+	var addAll = () => {
+	};
 
 	return (<>
 		<input id="search" ref={searchTermsRef} type="text" placeholder="Search Palettes..." name="search" />
