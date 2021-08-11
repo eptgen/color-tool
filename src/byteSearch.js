@@ -76,7 +76,7 @@ export default function stringSearch(terms, filebytes) {
   for (var i = 0; i < newSearch.length; i++) {
     var match = filestring.indexOf(newSearch[i]);
     output.push({
-      loc: ((match/3)-3),
+      loc: ((match/3)-3), //fix
       data: newSearch[i].split(' ').map(function(num) {
         return parseInt(num, 16);
       })
@@ -84,7 +84,7 @@ export default function stringSearch(terms, filebytes) {
     while (match > -1) {
       match = filestring.indexOf(newSearch[i], match+1);
       output.push({
-        loc: ((match/3)-3),
+        loc: ((match/3)-3), //fix
         data: newSearch[i].split(' ').map(function(num) {
           return parseInt(num, 16);
         })

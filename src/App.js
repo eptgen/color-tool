@@ -5,6 +5,7 @@ import './styles.css';
 import renderDownload from './download';
 import renderBeforeAfter from './beforeafter';
 import renderSearch from './paletteSearch';
+import manualSearch from './manualSearch.js'; //here
 
 var $ = require("jquery");
 var fileDownload = require("js-file-download");
@@ -17,6 +18,10 @@ function App() {
 	const [searchResults, setSearchResults] = useState([]);
 	const [filename, setFilename] = useState("");
 	const searchTermsRef = useRef();
+	const [manual, setManual] = useState({
+		address: "",
+		numBytes: ""
+	})
 
 	var sixtyFourToString = sixtyfour => {
 		var raw = atob(sixtyfour);
@@ -138,9 +143,6 @@ function App() {
 		var sixtyfour = trim(file.base64);
 		var filestring = sixtyFourToString(sixtyfour);
 		setFilename(file.fileList.item(0).name);
-		// console.log(sixtyfour);
-
-		// console.log(filestring);
 
 		var prgOffset = (filestring.charCodeAt(4)) * 16384;
 		var trainerOffset = ((filestring.charCodeAt(6) / 4) % 2) * 512;
@@ -155,6 +157,21 @@ function App() {
 		var stringCopy = JSON.stringify(palettes);
 		setPalettesFound(JSON.parse(stringCopy));
 		setCurrentPalettes(JSON.parse(stringCopy));
+	}
+
+	// manualSearch stuff:
+	function handleChange(evt) {
+		const value = evt.target.value;
+	  setManual({
+			...manual,
+			[evt.target.name]: value
+		});
+	}
+
+	function handleClick() {
+		var address = manual.address;
+		var numBytes = manual.numBytes;
+		console.log(manualSearch(address, numBytes, filebytes));
 	}
 
 	var auto = "auto";
@@ -236,7 +253,19 @@ function App() {
 
 	{renderSearch(searchTermsRef, setCurrentPalettes, getNesColor, getTextColor, searchResults, setSearchResults, filebytes)}
 
-    <section id="subtitle" style={{"paddingTop": "300px"}}>3. Testing Screen</section>
+		<div class="bytesearch">
+		<input type="text" placeholder="Enter Address.." name="address" value={manual.address} onChange={handleChange} style={{"marginLeft":"20px"}}></input>
+		<input type="text" placeholder="Number of Bytes.." name="numBytes" value={manual.numBytes} onChange={handleChange} style={{"marginLeft":"20px"}}></input>
+		<button onClick={handleClick}><i class="fa fa-search"></i>Search</button>
+
+		<p style={{"paddingLeft":"50px"}}>Address Result</p>
+
+		<form class="example" style={{"display": "inline-block", "paddingLeft": "10px"}}>
+		        <button type="submit"><i class="fa fa-search"></i>Add to Customization</button>
+		    </form>
+		</div>
+
+		<section id="subtitle" style={{"paddingTop": "300px"}}>3. Testing Screen</section>
 
     <section id="description">
         <p>Get a chance to test and play your color-hacked game! If you find any abnormalities or any unchanged colors, continue customizing. Otherwise, continue your download! </p>
