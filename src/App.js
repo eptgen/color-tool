@@ -2,10 +2,6 @@ import ReactFileReader from 'react-file-reader';
 import { useState, useRef } from 'react';
 import "./breakpoints.css";
 import './styles.css';
-<<<<<<< HEAD
-import stringSearch from './byteSearch';
-=======
->>>>>>> 840144523e0b86a1032e341ba2a81d76d8ee2ed2
 import renderDownload from './download';
 import renderBeforeAfter from './beforeafter';
 import renderSearch from './paletteSearch';
@@ -237,11 +233,7 @@ function App() {
         <p>Interact with our before and after display of the 4 background and 4 sprite palettes in your game. Click on the specific index of the color you want to change in the ‘after’ column. Then, explore the color grid containing all possible NES colors used in games and choose one to switch your chosen index to.</p>
     </section>
 
-<<<<<<< HEAD
-    <section id="subtitle1">NES Color Grid</section>
-=======
     <section id="subtitle1" style = {{"paddingLeft" : "170px"}}>NES Color Grid</section>
->>>>>>> 840144523e0b86a1032e341ba2a81d76d8ee2ed2
 
 	{renderBeforeAfter(palettesFound, currentPalettes, firstClicked, secondClicked, getNesColor, getTextColor)}
 
@@ -267,7 +259,7 @@ function App() {
 		<button onClick={handleClick}><i class="fa fa-search"></i>Search</button>
 
 		<p style={{"paddingLeft":"50px"}}>Address Result</p>
-		
+
 		<form class="example" style={{"display": "inline-block", "paddingLeft": "10px"}}>
 		        <button type="submit"><i class="fa fa-search"></i>Add to Customization</button>
 		    </form>
