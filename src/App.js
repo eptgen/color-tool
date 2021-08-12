@@ -21,7 +21,8 @@ function App() {
 	const [manual, setManual] = useState({
 		address: "",
 		numBytes: ""
-	})
+	});
+	const [prgEnd, setPrgEnd] = useState(0);
 
 	var sixtyFourToString = sixtyfour => {
 		var raw = atob(sixtyfour);
@@ -148,6 +149,7 @@ function App() {
 		var trainerOffset = ((filestring.charCodeAt(6) / 4) % 2) * 512;
 		var header = 16;
 		var prgEnd = prgOffset + trainerOffset + header;
+		setPrgEnd(prgOffset + trainerOffset + header);
 
 		var palettes = findPalettes(filestring);
 		setFilebytes(filestring);
@@ -268,7 +270,7 @@ function App() {
         <button type="submit"><i class="fa fa-search"></i>Apply</button>
     </form>
 
-	{renderSearch(searchTermsRef, setPalettesFound, setCurrentPalettes, getNesColor, getTextColor, searchResults, setSearchResults, filebytes)}
+	{renderSearch(searchTermsRef, setPalettesFound, setCurrentPalettes, getNesColor, getTextColor, searchResults, setSearchResults, filebytes, prgEnd)}
 
 		<div class="bytesearch">
 		<input type="text" placeholder="Enter Address.." name="address" value={manual.address} onChange={handleChange} style={{"marginLeft":"20px"}}></input>

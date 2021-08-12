@@ -3,7 +3,7 @@ import stringSearch from './byteSearch';
 
 var $ = require("jquery");
 
-export default function renderSearch(searchTermsRef, setPalettesFound, setCurrentPalettes, getNesColor, getTextColor, searchResults, setSearchResults, filebytes) {
+export default function renderSearch(searchTermsRef, setPalettesFound, setCurrentPalettes, getNesColor, getTextColor, searchResults, setSearchResults, filebytes, prgEnd) {
 	
 	var addToSearchResults = palette => {
 		setSearchResults(currentSearchResults => {
@@ -19,8 +19,9 @@ export default function renderSearch(searchTermsRef, setPalettesFound, setCurren
 		
 		for (var i = 0; i < searchRes.length; i++) {
 			var toAdd = searchRes[i];
-			toAdd.loc += 3;
-			addToSearchResults(toAdd);
+			if (toAdd.loc <= prgEnd) {
+				addToSearchResults(toAdd);
+			}
 		}
 		searchTermsRef.current.value = null;
 	};
@@ -51,17 +52,6 @@ export default function renderSearch(searchTermsRef, setPalettesFound, setCurren
 		});
 	}
 	
-	var addNum = num => {
-		var toAdd = JSON.stringify(searchResults[num]);
-		setPalettesFound(prev => {
-			return [...prev, JSON.parse(toAdd)];
-		});
-		setCurrentPalettes(prev => {
-			return [...prev, JSON.parse(toAdd)];
-		});
-		removeResult(num);
-	};
-	
 	var removeNums = nums => {
 		setSearchResults(prev => {
 			return prev.filter((e, i) => {
@@ -73,24 +63,40 @@ export default function renderSearch(searchTermsRef, setPalettesFound, setCurren
 		});
 	};
 	
+	var addNums = nums => {
+		for (var i = 0; i < nums.length; i++) {
+			var num = nums[i];
+			var toAdd = JSON.stringify(searchResults[num]);
+			setPalettesFound(prev => {
+				return [...prev, JSON.parse(toAdd)];
+			});
+			setCurrentPalettes(prev => {
+				return [...prev, JSON.parse(toAdd)];
+			});
+		}
+		removeNums(nums);
+	};
+	
 	var add = () => {
+		var nums = [];
 		$(".search-checkbox").each((ind, el) => {
 			var checked = el.checked;
 			// console.log(checked);
 			if (checked) {
 				// console.log(ind);
-				addNum(ind);
+				nums.push(ind);
 			}
-		}, () => {
-			removeChecks();
 		});
+		removeChecks();
+		addNums(nums);
 	};
 	
 	var addAll = () => {
+		var nums = [];
 		for (var i = 0; i < searchResults.length; i++) {
-			addNum(i);
+			nums.push(i);
 		}
-		removeChecks();
+		addNums(nums);
 	};
 	
 	var remove = () => {
