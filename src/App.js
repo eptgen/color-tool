@@ -270,7 +270,25 @@ function App() {
         <button type="submit"><i class="fa fa-search"></i>Apply</button>
     </form>
 
+	<div style={{display: "inline-block", "float": "left", "paddingLeft": "5px", "marginLeft": "20px", height: "130px", width: "430px", border: "1px solid #ccc", "overflow-y": "auto"}}>
+	<section id="subtitle" style={{"textAlign":"center", "marginRight":"30px", "paddingTop":"10px"}}>Byte Search</section>
+	<section id="description"><p>If known, enter the address and the number of bytes of your palette.</p></section>
+	<input type="text" placeholder="Enter Address.." style={{"marginLeft":"20px"}}></input>
+	<input type="text" placeholder="Number of Bytes.." style={{"marginLeft":"20px"}}></input>
+	<form class="example" style={{"display": "inline-block", "paddingLeft": "10px"}}>
+		   <button type="submit"><i class="fa fa-search"></i>Search</button>
+	   </form>
+	</div>
+
+	<form class="example" style={{"display": "inline-block", "paddingLeft": "90px", "float":"left"}}>
+	<button type="submit"><i class="fa fa-search"></i>Add to Customization</button>
+	</form>
+
+	<div style={{display: "inline-block", "paddingLeft": "5px", "marginTop":"50px", "float":"left", "marginLeft": "20px", height: "130px", width: "430px", border: "1px solid #ccc", "overflow-y": "auto"}}>
+	<section id="subtitle" style={{"textAlign":"center", "marginRight":"30px", "paddingTop":"10px"}}>Palette Search</section>
+	<section id="description"><p style={{"textAlign":"center"}}>If known, enter the hex values of your palette.</p></section>
 	{renderSearch(searchTermsRef, setPalettesFound, setCurrentPalettes, getNesColor, getTextColor, searchResults, setSearchResults, filebytes, prgEnd)}
+	</div>
 
 		<div class="bytesearch">
 		<input type="text" placeholder="Enter Address.." name="address" value={manual.address} onChange={handleChange} style={{"marginLeft":"20px"}}></input>
