@@ -260,29 +260,13 @@ function App() {
 	{[...Array(64).keys()].map(getPickerElement)}
 	</div>
 
-    <form class="example" style={{"display": "inline-block", "paddingLeft": "150px", "marginTop": "20px"}}>
-        <button type="submit"><i class="fa fa-search"></i>Save</button>
-    </form>
-
-
-
-    <form class="example" style={{"display": "inline-block", "paddingLeft": "10px"}}>
-        <button type="submit"><i class="fa fa-search"></i>Apply</button>
-    </form>
-
 	<div style={{display: "inline-block", "float": "left", "paddingLeft": "5px", "marginLeft": "20px", height: "130px", width: "430px", border: "1px solid #ccc", "overflow-y": "auto"}}>
 	<section id="subtitle" style={{"textAlign":"center", "marginRight":"30px", "paddingTop":"10px"}}>Byte Search</section>
 	<section id="description"><p>If known, enter the address and the number of bytes of your palette.</p></section>
 	<input type="text" placeholder="Enter Address.." style={{"marginLeft":"20px"}}></input>
 	<input type="text" placeholder="Number of Bytes.." style={{"marginLeft":"20px"}}></input>
-	<form class="example" style={{"display": "inline-block", "paddingLeft": "10px"}}>
-		   <button type="submit"><i class="fa fa-search"></i>Search</button>
-	   </form>
+	<button onClick={handleClick}><i class="fa fa-search"></i>Search</button>
 	</div>
-
-	<form class="example" style={{"display": "inline-block", "paddingLeft": "90px", "float":"left"}}>
-	<button type="submit"><i class="fa fa-search"></i>Add to Customization</button>
-	</form>
 
 	<div style={{display: "inline-block", "paddingLeft": "5px", "marginTop":"50px", "float":"left", "marginLeft": "20px", height: "130px", width: "430px", border: "1px solid #ccc", "overflow-y": "auto"}}>
 	<section id="subtitle" style={{"textAlign":"center", "marginRight":"30px", "paddingTop":"10px"}}>Palette Search</section>
@@ -290,34 +274,13 @@ function App() {
 	{renderSearch(searchTermsRef, setPalettesFound, setCurrentPalettes, getNesColor, getTextColor, searchResults, setSearchResults, filebytes, prgEnd)}
 	</div>
 
-		<div class="bytesearch">
-		<input type="text" placeholder="Enter Address.." name="address" value={manual.address} onChange={handleChange} style={{"marginLeft":"20px"}}></input>
-		<input type="text" placeholder="Number of Bytes.." name="numBytes" value={manual.numBytes} onChange={handleChange} style={{"marginLeft":"20px"}}></input>
-		<button onClick={handleClick}><i class="fa fa-search"></i>Search</button>
-
-		<p style={{"paddingLeft":"50px"}}>Address Result</p>
-
-		<form class="example" style={{"display": "inline-block", "paddingLeft": "10px"}}>
-		        <button type="submit"><i class="fa fa-search"></i>Add to Customization</button>
-		    </form>
-		</div>
-
-		<section id="subtitle" style={{"paddingTop": "300px"}}>3. Testing Screen</section>
-
-    <section id="description">
-        <p>Get a chance to test and play your color-hacked game! If you find any abnormalities or any unchanged colors, continue customizing. Otherwise, continue your download! </p>
-    </section>
-
-    <section id="subtitle">4. Download</section>
+    <section id="subtitle">3. Download</section>
 
     <section id="description">
         <p>Choose either option to save your new game! If you choose to download to our database, it would allow other users access and play your game. Thank you!</p>
     </section>
 
 	{renderDownload(currentPalettes, filename, filebytes)}
-	 <form class="example" style={{"display": "inline-block"}}>
-	<button type="submit"><i class="fa fa-search"></i>Download to Our Database</button>
-  </form>
     <footer>
             Summer Research, 2021.
     </footer>
