@@ -13,8 +13,11 @@ export default function manualSearch(address, numBytes, filebytes) {
 
   var start = parseInt(address, 10);
   var end = start + parseInt(numBytes, 10);
-
-  return hexList.slice(start, end).map(function(num) {
+  var vals = hexList.slice(start, end).map(function(num) {
     return parseInt(num, 16);
   });
+  return {
+      loc: start,
+      data: vals
+  }
 }
