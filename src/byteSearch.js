@@ -76,7 +76,7 @@ export default function stringSearch(terms, filebytes) {
   for (var i = 0; i < newSearch.length; i++) {
     var match = filestring.indexOf(newSearch[i]);
     output.push({
-      loc: ((match/3)-3), //fix
+      loc: (match/3),
       data: newSearch[i].split(' ').map(function(num) {
         return parseInt(num, 16);
       })
@@ -84,13 +84,28 @@ export default function stringSearch(terms, filebytes) {
     while (match > -1) {
       match = filestring.indexOf(newSearch[i], match+1);
       output.push({
-        loc: ((match/3)-3), //fix
+        loc: (match/3),
         data: newSearch[i].split(' ').map(function(num) {
           return parseInt(num, 16);
         })
       })
     }
     output.pop();
+    var results = [];
+    for (var x = 0; x < output.length; x++) {
+      var shouldAdd = true;
+      for (var y = 0; y < x; y++) {
+        var endIndexX = output[x].loc + output[x].data.length;
+        var endIndexY = output[y].loc + output[y].data.length;
+        if (output[y].loc <= output[x].loc && endIndexX <= endIndexY) {
+          shouldAdd = false;
+          break
+          }
+        }
+        if (shouldAdd) {
+          results.push(output[x]);
+        }
+        }
+    }
+    return results;
   }
-  return output;
-}
