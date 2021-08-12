@@ -127,7 +127,7 @@ function App() {
 		setCurrentPalettes(before => {
 			var result = [...before];
 			// console.log(result);
-			result[el[0]].data[el[1] + 3] = color;
+			result[el[0]].data[el[1]] = color;
 			return result;
 		});
 	}

@@ -18,7 +18,9 @@ export default function renderSearch(searchTermsRef, setPalettesFound, setCurren
 		console.log(searchRes);
 		
 		for (var i = 0; i < searchRes.length; i++) {
-			addToSearchResults(searchRes[i]);
+			var toAdd = searchRes[i];
+			toAdd.loc += 3;
+			addToSearchResults(toAdd);
 		}
 		searchTermsRef.current.value = null;
 	};
