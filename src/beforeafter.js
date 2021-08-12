@@ -6,7 +6,7 @@ export default function renderBeforeAfter(palettesFound, currentPalettes, firstC
 			return (
 				<div className="grid-container3">
 				{
-					paletteData.filter((e, i) => i >= 3).map((color, colorNum) => {
+					paletteData.map((color, colorNum) => {
 						var clickHandle = (e => {});
 						if (!isBefore) {
 							clickHandle = (e => firstClicked(e, paletteNum, colorNum));

@@ -2,10 +2,10 @@ import ReactFileReader from 'react-file-reader';
 import { useState, useRef } from 'react';
 import "./breakpoints.css";
 import './styles.css';
-import reverseVals from './testFunction';
 import renderDownload from './download';
 import renderBeforeAfter from './beforeafter';
 import renderSearch from './paletteSearch';
+import manualSearch from './manualSearch.js'; //here
 
 var $ = require("jquery");
 var fileDownload = require("js-file-download");
@@ -18,6 +18,11 @@ function App() {
 	const [searchResults, setSearchResults] = useState([]);
 	const [filename, setFilename] = useState("");
 	const searchTermsRef = useRef();
+	const [manual, setManual] = useState({
+		address: "",
+		numBytes: ""
+	});
+	const [prgEnd, setPrgEnd] = useState(0);
 
 	var sixtyFourToString = sixtyfour => {
 		var raw = atob(sixtyfour);
@@ -113,7 +118,7 @@ function App() {
 	var getTextColor = byt => {
 		return textColors[byt];
 	}
-	
+
 	var firstClicked = (e, paletteNum, colorNum) => {
 		setEl([paletteNum, colorNum]);
 	}
@@ -123,11 +128,11 @@ function App() {
 		setCurrentPalettes(before => {
 			var result = [...before];
 			// console.log(result);
-			result[el[0]].data[el[1] + 3] = color;
+			result[el[0]].data[el[1]] = color;
 			return result;
 		});
 	}
-	
+
 	var getPickerElement = num => {
 		return (
 		<div onClick={e => secondClicked(e, num)} className="grid-item2" style={{backgroundColor: getNesColor(num), color: getTextColor(num)}}>
@@ -139,23 +144,53 @@ function App() {
 		var sixtyfour = trim(file.base64);
 		var filestring = sixtyFourToString(sixtyfour);
 		setFilename(file.fileList.item(0).name);
-		// console.log(sixtyfour);
-
-		// console.log(filestring);
 
 		var prgOffset = (filestring.charCodeAt(4)) * 16384;
 		var trainerOffset = ((filestring.charCodeAt(6) / 4) % 2) * 512;
 		var header = 16;
 		var prgEnd = prgOffset + trainerOffset + header;
+		setPrgEnd(prgOffset + trainerOffset + header);
 
 		var palettes = findPalettes(filestring);
 		setFilebytes(filestring);
 		palettes = palettes.filter(palette => palette.loc <= prgEnd);
 		// console.log(palettes.length);
 
-		var stringCopy = JSON.stringify(palettes);
+		var toMakePalettes = palettes.map(palette => {
+			var result = {};
+			result.loc = palette.loc + 3;
+			result.data = palette.data.filter((e, i) => i >= 3);
+			return result;
+		});
+
+		// making copies of the palette
+		var stringCopy = JSON.stringify(toMakePalettes);
 		setPalettesFound(JSON.parse(stringCopy));
 		setCurrentPalettes(JSON.parse(stringCopy));
+	}
+
+	// manualSearch stuff:
+	function handleChange(evt) {
+		const value = evt.target.value;
+	  setManual({
+			...manual,
+			[evt.target.name]: value
+		});
+	}
+
+	function handleClick() {
+		var address = manual.address;
+		var numBytes = manual.numBytes;
+		var bytes1 = manualSearch(address, numBytes, filebytes);
+		var bytes2 = manualSearch(address, numBytes, filebytes);
+		setPalettesFound([
+			...palettesFound,
+			bytes1
+		])
+		setCurrentPalettes([
+			...currentPalettes,
+			bytes2
+		])
 	}
 
 	var auto = "auto";
@@ -180,7 +215,7 @@ function App() {
 		</div>
 	);
 	*/
-	
+
 	return (<>
 	<header>
         <section id="logo" style={{"textAlign": "center"}}>NES Color Tool</section>
@@ -198,29 +233,12 @@ function App() {
 
     <section id="description"><p>Welcome to Our Tool!</p></section>
 
-    <section id="subtitle">1. Search/File Upload</section>
+    <section id="subtitle">1. File Upload</section>
 
     <section id="description">
-        <p>Get started by uploading the game file you want to alter. If you don’t have one or just want to experiment, search through and choose one of our available homebrew games!</p>
+        <p>Get started by uploading the game file you want to alter.</p>
     </section>
 
-    <div style={{float: left, "paddingLeft": "100px"}}>
-        <form class="example" style={{"display": "inline-block"}}>
-        <input type="text" placeholder="Search Games.." name="search" />
-        <button type="submit"><i class="fa fa-search"></i>Go</button>
-        </form>
-
-		<p style= {{"fontFamily": "monospace", "paddingLeft": "100px"}}>Results Found</p>
-        <ol style= {{"fontFamily": monospace, "fontSize": "15px"}}>
-            <li>game #1 (clickable to upload)</li>
-            <li>game #2</li>
-            <li>game #3</li>
-        </ol>
-    </div>
-
-    <div style={{float: "left", "paddingLeft": "100px", "paddingTop": "5px"}}>
-        <p style= {{"fontFamily": "monospace"}}>or</p>
-    </div>
 
     <div style={{float: "left", "paddingLeft": "100px", "paddingTop": "17px"}}>
 		<ReactFileReader fileTypes="" base64={true} multiple={false} handleFiles={handleFiles}>
@@ -234,25 +252,57 @@ function App() {
         <p>Interact with our before and after display of the 4 background and 4 sprite palettes in your game. Click on the specific index of the color you want to change in the ‘after’ column. Then, explore the color grid containing all possible NES colors used in games and choose one to switch your chosen index to.</p>
     </section>
 
-    <section id="subtitle1">NES Color Grid</section>
-	
+    <section id="subtitle1" style = {{"paddingLeft" : "170px"}}>NES Color Grid</section>
+
 	{renderBeforeAfter(palettesFound, currentPalettes, firstClicked, secondClicked, getNesColor, getTextColor)}
 
-    <form class="example" style={{"display": "inline-block"}}>
+	<div class="grid-container2" style={{"float": right, "paddingRight": "10px", "marginTop" : "-10px"}}>
+	{[...Array(64).keys()].map(getPickerElement)}
+	</div>
+
+    <form class="example" style={{"display": "inline-block", "paddingLeft": "150px", "marginTop": "20px"}}>
         <button type="submit"><i class="fa fa-search"></i>Save</button>
     </form>
 
-    <div class="grid-container2" style={{"float": right, "paddingRight": "100px"}}>
-		{[...Array(64).keys()].map(getPickerElement)}
-    </div>
 
-    <form class="example" style={{"display": "inline-block"}}>
+
+    <form class="example" style={{"display": "inline-block", "paddingLeft": "10px"}}>
         <button type="submit"><i class="fa fa-search"></i>Apply</button>
     </form>
 
-	{renderSearch(searchTermsRef, setCurrentPalettes, getNesColor, getTextColor, searchResults, setSearchResults)}
+	<div style={{display: "inline-block", "float": "left", "paddingLeft": "5px", "marginLeft": "20px", height: "130px", width: "430px", border: "1px solid #ccc", "overflow-y": "auto"}}>
+	<section id="subtitle" style={{"textAlign":"center", "marginRight":"30px", "paddingTop":"10px"}}>Byte Search</section>
+	<section id="description"><p>If known, enter the address and the number of bytes of your palette.</p></section>
+	<input type="text" placeholder="Enter Address.." style={{"marginLeft":"20px"}}></input>
+	<input type="text" placeholder="Number of Bytes.." style={{"marginLeft":"20px"}}></input>
+	<form class="example" style={{"display": "inline-block", "paddingLeft": "10px"}}>
+		   <button type="submit"><i class="fa fa-search"></i>Search</button>
+	   </form>
+	</div>
 
-    <section id="subtitle" style={{"paddingTop": "300px"}}>3. Testing Screen</section>
+	<form class="example" style={{"display": "inline-block", "paddingLeft": "90px", "float":"left"}}>
+	<button type="submit"><i class="fa fa-search"></i>Add to Customization</button>
+	</form>
+
+	<div style={{display: "inline-block", "paddingLeft": "5px", "marginTop":"50px", "float":"left", "marginLeft": "20px", height: "130px", width: "430px", border: "1px solid #ccc", "overflow-y": "auto"}}>
+	<section id="subtitle" style={{"textAlign":"center", "marginRight":"30px", "paddingTop":"10px"}}>Palette Search</section>
+	<section id="description"><p style={{"textAlign":"center"}}>If known, enter the hex values of your palette.</p></section>
+	{renderSearch(searchTermsRef, setPalettesFound, setCurrentPalettes, getNesColor, getTextColor, searchResults, setSearchResults, filebytes, prgEnd)}
+	</div>
+
+		<div class="bytesearch">
+		<input type="text" placeholder="Enter Address.." name="address" value={manual.address} onChange={handleChange} style={{"marginLeft":"20px"}}></input>
+		<input type="text" placeholder="Number of Bytes.." name="numBytes" value={manual.numBytes} onChange={handleChange} style={{"marginLeft":"20px"}}></input>
+		<button onClick={handleClick}><i class="fa fa-search"></i>Search</button>
+
+		<p style={{"paddingLeft":"50px"}}>Address Result</p>
+
+		<form class="example" style={{"display": "inline-block", "paddingLeft": "10px"}}>
+		        <button type="submit"><i class="fa fa-search"></i>Add to Customization</button>
+		    </form>
+		</div>
+
+		<section id="subtitle" style={{"paddingTop": "300px"}}>3. Testing Screen</section>
 
     <section id="description">
         <p>Get a chance to test and play your color-hacked game! If you find any abnormalities or any unchanged colors, continue customizing. Otherwise, continue your download! </p>
@@ -265,13 +315,14 @@ function App() {
     </section>
 
 	{renderDownload(currentPalettes, filename, filebytes)}
-	<button><i class="fa fa-search"></i>Download to Our Database</button>
-
+	 <form class="example" style={{"display": "inline-block"}}>
+	<button type="submit"><i class="fa fa-search"></i>Download to Our Database</button>
+  </form>
     <footer>
             Summer Research, 2021.
     </footer>
 	</>);
-	
+
 
 }
 
