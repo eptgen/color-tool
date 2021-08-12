@@ -3,7 +3,7 @@ import stringSearch from './byteSearch';
 
 var $ = require("jquery");
 
-export default function renderSearch(searchTermsRef, setPalettesFound, setCurrentPalettes, getNesColor, getTextColor, searchResults, setSearchResults, filebytes, prgEnd) {
+export default function renderSearch(searchTermsRef, palettesFound, currentPalettes, setPalettesFound, setCurrentPalettes, getNesColor, getTextColor, searchResults, setSearchResults, filebytes, prgEnd) {
 	
 	var addToSearchResults = palette => {
 		setSearchResults(currentSearchResults => {
@@ -15,7 +15,7 @@ export default function renderSearch(searchTermsRef, setPalettesFound, setCurren
 		const vals = searchTermsRef.current.value;
 		if (vals === '') return;
 		var searchRes = stringSearch(vals, filebytes);
-		console.log(searchRes);
+		// console.log(searchRes);
 		
 		for (var i = 0; i < searchRes.length; i++) {
 			var toAdd = searchRes[i];
@@ -27,6 +27,7 @@ export default function renderSearch(searchTermsRef, setPalettesFound, setCurren
 	};
 	
 	var renderResult = palette => {
+		// console.log(palette);
 		return (
 			<li><input type="checkbox" class="search-checkbox" /><div class="grid-container3">
 				{palette.data.map((color, colorNum) => {
@@ -36,14 +37,6 @@ export default function renderSearch(searchTermsRef, setPalettesFound, setCurren
 				})}
             </div></li>
 		);
-	};
-	
-	var removeResult = num => {
-		setSearchResults(prev => {
-			var result = [...prev];
-			result.splice(num, 1);
-			return result;
-		});
 	};
 	
 	var removeChecks = () => {
@@ -56,24 +49,26 @@ export default function renderSearch(searchTermsRef, setPalettesFound, setCurren
 		setSearchResults(prev => {
 			return prev.filter((e, i) => {
 				var res = !(nums.includes(i));
-				console.log(nums);
-				console.log(i);
+				// console.log(nums);
+				// console.log(i);
 				return res;
 			});
 		});
 	};
 	
 	var addNums = nums => {
+		var newPalettesFound = palettesFound;
+		var newCurrentPalettes = currentPalettes;
 		for (var i = 0; i < nums.length; i++) {
 			var num = nums[i];
 			var toAdd = JSON.stringify(searchResults[num]);
-			setPalettesFound(prev => {
-				return [...prev, JSON.parse(toAdd)];
-			});
-			setCurrentPalettes(prev => {
-				return [...prev, JSON.parse(toAdd)];
-			});
+			// console.log(toAdd);
+			
+			newPalettesFound.push(JSON.parse(toAdd));
+			newCurrentPalettes.push(JSON.parse(toAdd));
 		}
+		setPalettesFound(newPalettesFound);
+		setCurrentPalettes(newCurrentPalettes);
 		removeNums(nums);
 	};
 	

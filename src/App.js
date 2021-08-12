@@ -7,9 +7,6 @@ import renderBeforeAfter from './beforeafter';
 import renderSearch from './paletteSearch';
 import manualSearch from './manualSearch.js'; //here
 
-var $ = require("jquery");
-var fileDownload = require("js-file-download");
-
 function App() {
 	const [palettesFound, setPalettesFound] = useState([]);
 	const [currentPalettes, setCurrentPalettes] = useState([]);
@@ -193,15 +190,7 @@ function App() {
 		])
 	}
 
-	var auto = "auto";
-	var border = "border";
-	var color = "color";
-	var display = "display";
-	var height = "height";
-	var left = "left";
-	var monospace = "monospace";
 	var right = "right";
-	var width = "width";
 
 	/*
 	return (
@@ -271,7 +260,7 @@ function App() {
 	<div style={{display: "inline-block", "paddingLeft": "5px", "marginTop":"50px", "float":"left", "marginLeft": "20px", height: "130px", width: "430px", border: "1px solid #ccc", "overflow-y": "auto"}}>
 	<section id="subtitle" style={{"textAlign":"center", "marginRight":"30px", "paddingTop":"10px"}}>Palette Search</section>
 	<section id="description"><p style={{"textAlign":"center"}}>If known, enter the hex values of your palette.</p></section>
-	{renderSearch(searchTermsRef, setPalettesFound, setCurrentPalettes, getNesColor, getTextColor, searchResults, setSearchResults, filebytes, prgEnd)}
+	{renderSearch(searchTermsRef, palettesFound, currentPalettes, setPalettesFound, setCurrentPalettes, getNesColor, getTextColor, searchResults, setSearchResults, filebytes, prgEnd)}
 	</div>
 
     <section id="subtitle">3. Download</section>
