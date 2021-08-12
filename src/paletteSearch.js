@@ -29,9 +29,14 @@ export default function renderSearch(searchTermsRef, palettesFound, currentPalet
 	var renderResult = palette => {
 		// console.log(palette);
 		return (
-			<li><input type="checkbox" class="search-checkbox" /><div class="grid-container3">
+			<li><input type="checkbox" class="search-checkbox" />
+			<div className="grid-container4">
+				Location: {palette.loc.toString(16).toUpperCase().padStart(4, "0")}
+			</div>
+			<div class="grid-container3">
 				{palette.data.map((color, colorNum) => {
-					return (<div className="grid-item2" style={{backgroundColor: getNesColor(color), color: getTextColor(color)}}>
+					return (
+					<div className="grid-item2" style={{backgroundColor: getNesColor(color), color: getTextColor(color)}}>
 						{color.toString(16).toUpperCase().padStart(2, "0")}
 					</div>);
 				})}

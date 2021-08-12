@@ -25,7 +25,7 @@ export default function renderBeforeAfter(palettesFound, currentPalettes, firstC
 			// console.log(currentPalettes);
 			return (
 				<div className="grid-container4">
-				{paletteLoc.toString(16).toUpperCase().padStart(2, "0")}
+				{paletteLoc.toString(16).toUpperCase().padStart(4, "0")}
 			</div>)
 	}
 
