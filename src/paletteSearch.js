@@ -1,13 +1,13 @@
 
 import stringSearch from './byteSearch';
 
-export default function renderSearch(searchTermsRef, setCurrentPalettes, getNesColor, getTextColor, searchResults, setSearchResults, filebytes) {
+var $ = require("jquery");
+
+export default function renderSearch(searchTermsRef, setPalettesFound, setCurrentPalettes, getNesColor, getTextColor, searchResults, setSearchResults, filebytes) {
 	
 	var addToSearchResults = palette => {
 		setSearchResults(currentSearchResults => {
-			var result = [...currentSearchResults]
-			result.push(palette);
-			return result;
+			return [...currentSearchResults, palette];
 		});
 	}
 	
@@ -35,13 +35,77 @@ export default function renderSearch(searchTermsRef, setCurrentPalettes, getNesC
 		);
 	};
 	
+	var removeResult = num => {
+		setSearchResults(prev => {
+			var result = [...prev];
+			result.splice(num, 1);
+			return result;
+		});
+	};
+	
+	var removeChecks = () => {
+		$(".search-checkbox").each((ind, el) => {
+			el.checked = false;
+		});
+	}
+	
 	var addNum = num => {
+		var toAdd = JSON.stringify(searchResults[num]);
+		setPalettesFound(prev => {
+			return [...prev, JSON.parse(toAdd)];
+		});
+		setCurrentPalettes(prev => {
+			return [...prev, JSON.parse(toAdd)];
+		});
+		removeResult(num);
+	};
+	
+	var removeNums = nums => {
+		setSearchResults(prev => {
+			return prev.filter((e, i) => {
+				var res = !(nums.includes(i));
+				console.log(nums);
+				console.log(i);
+				return res;
+			});
+		});
 	};
 	
 	var add = () => {
+		$(".search-checkbox").each((ind, el) => {
+			var checked = el.checked;
+			// console.log(checked);
+			if (checked) {
+				// console.log(ind);
+				addNum(ind);
+			}
+		}, () => {
+			removeChecks();
+		});
 	};
 	
 	var addAll = () => {
+		for (var i = 0; i < searchResults.length; i++) {
+			addNum(i);
+		}
+		removeChecks();
+	};
+	
+	var remove = () => {
+		var indices = [];
+		$(".search-checkbox").each((ind, el) => {
+			if (el.checked) {
+				indices.push(ind);
+			}
+		});
+		// console.log(indices);
+		removeNums(indices);
+		removeChecks();
+	};
+	
+	var removeAll = () => {
+		setSearchResults([]);
+		removeChecks();
 	};
 
 	return (<>
@@ -53,8 +117,9 @@ export default function renderSearch(searchTermsRef, setCurrentPalettes, getNesC
         </ol>
     
 		<button onClick={add}><i class="fa fa-search"></i>Add</button>
-	
 		<button onClick={addAll}><i class="fa fa-search"></i>Add All</button>
+		<button onClick={remove}><i class="fa fa-search"></i>Remove</button>
+		<button onClick={removeAll}><i class="fa fa-search"></i>Remove All</button>
 		</>
 	);
 };

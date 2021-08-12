@@ -259,7 +259,7 @@ function App() {
         <button type="submit"><i class="fa fa-search"></i>Apply</button>
     </form>
 
-	{renderSearch(searchTermsRef, setCurrentPalettes, getNesColor, getTextColor, searchResults, setSearchResults, filebytes)}
+	{renderSearch(searchTermsRef, setPalettesFound, setCurrentPalettes, getNesColor, getTextColor, searchResults, setSearchResults, filebytes)}
 
 		<div class="bytesearch">
 		<input type="text" placeholder="Enter Address.." name="address" value={manual.address} onChange={handleChange} style={{"marginLeft":"20px"}}></input>
