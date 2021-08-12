@@ -1,8 +1,7 @@
 
 export default function renderBeforeAfter(palettesFound, currentPalettes, firstClicked, secondClicked, getNesColor, getTextColor) {
 
-	var getPaletteElement = isBefore => {
-		return ((palette, paletteNum) => {
+	var getPaletteElement = (palette, paletteNum, isBefore) => {
 			var paletteData = palette.data;
 			return (
 				<div className="grid-container3">
@@ -19,43 +18,46 @@ export default function renderBeforeAfter(palettesFound, currentPalettes, firstC
 				}
 				</div>
 			);
-		});
-	}
+		};
 
-	var getPaletteLoc = pal => {
-		return ((palette, paletteNum) => {
+	var getPaletteLoc = (palette, paletteNum) => {
 			var paletteLoc = palette.loc;
 			return (
-				<div className="grid-container3">
-				{paletteLoc}
+				<div className="grid-container4">
+				{paletteLoc.toString(16).toUpperCase().padStart(2, "0")}
 			</div>)
-		}
+	}
+
+
+	function getRow(palette, index) {
+		return (
+			<tr>
+				<td style={{"paddingLeft":"10px", "border":"1px solid black"}}>
+				<div class="loc">
+					{getPaletteLoc(palette, index)}
+				</div></td>
+				<td style={{"padding":"10px", "border":"1px solid black"}}>
+				<div class="before">
+					{getPaletteElement(palettesFound[index], index, true)}
+				</div></td>
+				<td style={{"border":"1px solid black", "paddingRight":"10px"}}>
+				<div class="after">
+					{getPaletteElement(palette, index, false)}
+				</div></td>
+			</tr>
 		)
 	}
-	
+
 	return (
-		<div style={{display: "inline-block", "float": "left", "paddingLeft": "5px", "marginLeft": "20px", height: "500px", width: "800px", border: "1px solid #ccc", "overflow-y": "auto"}}>
-
-			<div id="loc" style={{"float": "left"}}>
-			<section id="subtitle1">Location</section>
-
-			{palettesFound.map(getPaletteLoc())}
-
-			</div>
-
-			<div id="before" style={{display: "inline-block", "float": "left", "paddingLeft": "15px"}}>
-				<section id="subtitle1" style={{"paddingLeft": "70px"}}>Before</section>
-
-				{palettesFound.map(getPaletteElement(true))}
-
-			</div>
-
-			<div id="after" style={{display: "inline-block", "float": "left", "paddingLeft": "10px"}}>
-				<section id="subtitle1" style={{"paddingLeft": "70px"}}>After</section>
-
-				{currentPalettes.map(getPaletteElement(false))}
-
-			</div>
+		<div style={{display: "inline-block", "float": "left", "paddingLeft": "5px", "marginLeft": "20px", height: "500px", width: "680px", border: "1px solid #ccc", "overflow-y": "auto"}}>
+			<table id="titles" style={{"border-collapse":"collapse"}}>
+				<tr>
+					<th><section id="subtitle1" style={{"paddingLeft": "40px", "paddingRight": "40px", "paddingBottom": "10px"}}>Location</section></th>
+					<th><section id="subtitle1" style={{"paddingLeft": "90px", "paddingRight": "90px", "paddingBottom": "10px"}}>Before</section></th>
+					<th><section id="subtitle1" style={{"paddingLeft": "90px", "paddingRight": "90px", "paddingBottom": "10px"}}>After</section></th>
+				</tr>
+				{currentPalettes.map(getRow)}
+			</table>
 		</div>
 	);
 
