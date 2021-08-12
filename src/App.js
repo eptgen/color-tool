@@ -160,7 +160,7 @@ function App() {
 			result.data = palette.data.filter((e, i) => i >= 3);
 			return result;
 		});
-		
+
 		// making copies of the palette
 		var stringCopy = JSON.stringify(toMakePalettes);
 		setPalettesFound(JSON.parse(stringCopy));
@@ -179,7 +179,16 @@ function App() {
 	function handleClick() {
 		var address = manual.address;
 		var numBytes = manual.numBytes;
-		console.log(manualSearch(address, numBytes, filebytes));
+		var bytes1 = manualSearch(address, numBytes, filebytes);
+		var bytes2 = manualSearch(address, numBytes, filebytes);
+		setPalettesFound([
+			...palettesFound,
+			bytes1
+		])
+		setCurrentPalettes([
+			...currentPalettes,
+			bytes2
+		])
 	}
 
 	var auto = "auto";
