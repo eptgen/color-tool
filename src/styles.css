@@ -36,12 +36,11 @@ nav a:hover {
 }
 
 #description p {
-    font-size: 13px;
+    font-size: 14px;
     font-family: 'Merriweather';
     line-height: 1.5;
     color: #696969;
     padding-left: 30px;
-    padding-top: 10px;
     text-align: left;
 }
 
@@ -144,17 +143,16 @@ img {
     padding-left: 20px;
 }
 
-form.example input[type=text] {
+.example input[type=text] {
     padding: 5px;
-    margin-top: 15px;
     margin-left: 20px;
-    font-size: 15px;
+    font-size: 13px;
     font-family: monospace;
     border: 1px solid lavender;
-    width: 250px;
+    width: 140px;
 }
 
-form.example button {
+.example button {
     padding: 5px;
     background: lavender;
     color: grey;
@@ -163,7 +161,48 @@ form.example button {
     border: 1px solid lavender;
 }
 
-form.example button:hover {
+.example button:hover {
+    background: #DFB8DF;
+    color: white;
+}
+
+.example1 input[type=text] {
+    padding: 5px;
+    margin-left: 224px;
+    margin-right: 10px;
+    font-size: 13px;
+    font-family: monospace;
+    border: 1px solid lavender;
+    width: 200px;
+}
+
+.example1 button {
+    padding: 5px;
+    background: lavender;
+    color: grey;
+    font-size: 15px;
+    font-family: monospace;
+    border: 1px solid lavender;
+    margin-left: 10px;
+}
+
+.example1 button:hover {
+    background: #DFB8DF;
+    color: white;
+}
+
+.example2 button {
+    padding: 5px;
+    background: lavender;
+    color: grey;
+    font-size: 15px;
+    font-family: monospace;
+    border: 1px solid lavender;
+    margin-left: 30px;
+    margin-bottom: 30px;
+}
+
+.example2 button:hover {
     background: #DFB8DF;
     color: white;
 }
@@ -212,9 +251,9 @@ label:hover {
 }
 
 .grid-container4 {
-  grid-template-columns: auto;
-  font-family: 'Merriweather';
+  font-family: monospace;
   font-size: 15px;
+  padding-left: 50px;
 }
 
 footer {

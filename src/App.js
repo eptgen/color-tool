@@ -238,38 +238,43 @@ function App() {
     <section id="subtitle" style={{"paddingTop": "80px"}}>2. Customization</section>
 
     <section id="description">
-        <p>Interact with our before and after display of the 4 background and 4 sprite palettes in your game. Click on the specific index of the color you want to change in the ‘after’ column. Then, explore the color grid containing all possible NES colors used in games and choose one to switch your chosen index to.</p>
+        <p>Interact with our before and after display of the palettes in your game. Click on the specific index of the color you want to change in the ‘after’ column. Then, explore the color grid containing all possible NES colors used in games and choose one to switch your chosen index to.</p>
     </section>
 
-    <section id="subtitle1" style = {{"paddingLeft" : "170px"}}>NES Color Grid</section>
+    <section id="subtitle1" style = {{"paddingLeft" : "290px", "fontSize":"18px"}}>NES Color Grid</section>
 
 	{renderBeforeAfter(palettesFound, currentPalettes, firstClicked, secondClicked, getNesColor, getTextColor)}
 
-	<div class="grid-container2" style={{"float": right, "paddingRight": "10px", "marginTop" : "-10px"}}>
+	<div class="grid-container2" style={{"paddingLeft": "150px"}}>
 	{[...Array(64).keys()].map(getPickerElement)}
 	</div>
 
-	<div style={{display: "inline-block", "float": "left", "paddingLeft": "5px", "marginLeft": "20px", height: "130px", width: "430px", border: "1px solid #ccc", "overflow-y": "auto"}}>
+	<div style={{display: "inline-block", "float": "left", "paddingLeft": "5px", "marginLeft": "153px", height: "138px", width: "430px", border: "1px solid #ccc", "overflow-y": "auto"}}>
 	<section id="subtitle" style={{"textAlign":"center", "marginRight":"30px", "paddingTop":"10px"}}>Byte Search</section>
-	<section id="description"><p>If known, enter the address and the number of bytes of your palette.</p></section>
-	<input type="text" placeholder="Enter Address.." style={{"marginLeft":"20px"}}></input>
-	<input type="text" placeholder="Number of Bytes.." style={{"marginLeft":"20px"}}></input>
-	<button onClick={handleClick}><i class="fa fa-search"></i>Search</button>
+	<section id="description"><p style={{"textAlign":"center"}}>If known, enter the address and the number of bytes of your palette. Values are added to the bottom of the table.</p></section>
+		<div class="example">
+		<input type="text" placeholder="Enter Address.." style={{"marginLeft":"25px"}}></input>
+		<input type="text" placeholder="Number of Bytes.." style={{"marginLeft":"10px", "marginRight":"10px"}}></input>
+		<button onClick={handleClick}>Search</button>
+		</div>
 	</div>
 
-	<div style={{display: "inline-block", "paddingLeft": "5px", "marginTop":"50px", "float":"left", "marginLeft": "20px", height: "130px", width: "430px", border: "1px solid #ccc", "overflow-y": "auto"}}>
+	<div style={{display: "inline-block", "paddingLeft": "5px", "marginTop":"20px", "float":"left", "marginLeft": "20px", height: "300px", width: "680px", border: "1px solid #ccc", "overflow-y": "auto"}}>
 	<section id="subtitle" style={{"textAlign":"center", "marginRight":"30px", "paddingTop":"10px"}}>Palette Search</section>
-	<section id="description"><p style={{"textAlign":"center"}}>If known, enter the hex values of your palette.</p></section>
-	{renderSearch(searchTermsRef, palettesFound, currentPalettes, setPalettesFound, setCurrentPalettes, getNesColor, getTextColor, searchResults, setSearchResults, filebytes, prgEnd)}
+	<section id="description"><p style={{"textAlign":"center"}}>If known, enter the hex values of your palette. Select which ones to add to your table.</p></section>
+		<div class="example1">{renderSearch(searchTermsRef, palettesFound, currentPalettes, setPalettesFound, setCurrentPalettes, getNesColor, getTextColor, searchResults, setSearchResults, filebytes, prgEnd)}</div>
 	</div>
 
+	<div style={{"marginTop":"500px"}}>
     <section id="subtitle">3. Download</section>
 
     <section id="description">
-        <p>Choose either option to save your new game! If you choose to download to our database, it would allow other users access and play your game. Thank you!</p>
+        <p>Download your new patch file to your device. Happy playing!</p>
     </section>
 
-	{renderDownload(currentPalettes, filename, filebytes)}
+		<div class="example2">{renderDownload(currentPalettes, filename, filebytes)}</div>
+	</div>
+
     <footer>
             Summer Research, 2021.
     </footer>

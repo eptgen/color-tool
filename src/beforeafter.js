@@ -50,7 +50,7 @@ export default function renderBeforeAfter(palettesFound, currentPalettes, firstC
 	}
 
 	return (
-		<div style={{display: "inline-block", "float": "left", "paddingLeft": "5px", "marginLeft": "20px", height: "500px", width: "680px", border: "1px solid #ccc", "overflow-y": "auto"}}>
+		<div style={{display: "inline-block", "float": "left", "paddingLeft": "5px", "marginLeft": "20px", height: "629px", width: "680px", border: "1px solid #ccc", "overflow-y": "auto"}}>
 			<table id="titles" style={{"border-collapse":"collapse"}}>
 				<tr>
 					<th><section id="subtitle1" style={{"paddingLeft": "40px", "paddingRight": "40px", "paddingBottom": "10px"}}>Location</section></th>

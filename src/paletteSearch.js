@@ -4,19 +4,19 @@ import stringSearch from './byteSearch';
 var $ = require("jquery");
 
 export default function renderSearch(searchTermsRef, palettesFound, currentPalettes, setPalettesFound, setCurrentPalettes, getNesColor, getTextColor, searchResults, setSearchResults, filebytes, prgEnd) {
-	
+
 	var addToSearchResults = palette => {
 		setSearchResults(currentSearchResults => {
 			return [...currentSearchResults, palette];
 		});
 	}
-	
+
 	var search = () => {
 		const vals = searchTermsRef.current.value;
 		if (vals === '') return;
 		var searchRes = stringSearch(vals, filebytes);
 		// console.log(searchRes);
-		
+
 		for (var i = 0; i < searchRes.length; i++) {
 			var toAdd = searchRes[i];
 			if (toAdd.loc <= prgEnd) {
@@ -25,7 +25,7 @@ export default function renderSearch(searchTermsRef, palettesFound, currentPalet
 		}
 		searchTermsRef.current.value = null;
 	};
-	
+
 	var renderResult = palette => {
 		// console.log(palette);
 		return (
@@ -43,13 +43,13 @@ export default function renderSearch(searchTermsRef, palettesFound, currentPalet
             </div></li>
 		);
 	};
-	
+
 	var removeChecks = () => {
 		$(".search-checkbox").each((ind, el) => {
 			el.checked = false;
 		});
 	}
-	
+
 	var removeNums = nums => {
 		setSearchResults(prev => {
 			return prev.filter((e, i) => {
@@ -60,7 +60,7 @@ export default function renderSearch(searchTermsRef, palettesFound, currentPalet
 			});
 		});
 	};
-	
+
 	var addNums = nums => {
 		var newPalettesFound = palettesFound;
 		var newCurrentPalettes = currentPalettes;
@@ -68,7 +68,7 @@ export default function renderSearch(searchTermsRef, palettesFound, currentPalet
 			var num = nums[i];
 			var toAdd = JSON.stringify(searchResults[num]);
 			// console.log(toAdd);
-			
+
 			newPalettesFound.push(JSON.parse(toAdd));
 			newCurrentPalettes.push(JSON.parse(toAdd));
 		}
@@ -76,7 +76,7 @@ export default function renderSearch(searchTermsRef, palettesFound, currentPalet
 		setCurrentPalettes(newCurrentPalettes);
 		removeNums(nums);
 	};
-	
+
 	var add = () => {
 		var nums = [];
 		$(".search-checkbox").each((ind, el) => {
@@ -90,7 +90,7 @@ export default function renderSearch(searchTermsRef, palettesFound, currentPalet
 		removeChecks();
 		addNums(nums);
 	};
-	
+
 	var addAll = () => {
 		var nums = [];
 		for (var i = 0; i < searchResults.length; i++) {
@@ -98,7 +98,7 @@ export default function renderSearch(searchTermsRef, palettesFound, currentPalet
 		}
 		addNums(nums);
 	};
-	
+
 	var remove = () => {
 		var indices = [];
 		$(".search-checkbox").each((ind, el) => {
@@ -110,7 +110,7 @@ export default function renderSearch(searchTermsRef, palettesFound, currentPalet
 		removeNums(indices);
 		removeChecks();
 	};
-	
+
 	var removeAll = () => {
 		setSearchResults([]);
 		removeChecks();
@@ -119,15 +119,14 @@ export default function renderSearch(searchTermsRef, palettesFound, currentPalet
 	return (<>
 		<input id="search" ref={searchTermsRef} type="text" placeholder="Search Palettes..." name="search" />
 		<button onClick={search}><i class="fa fa-search"></i>Go</button>
-		<p style={{"font-family": "monospace", "padding-left": "100px"}}>Results Found</p>
         <ol style={{"font-family": "monospace", "font-size": "15px"}}>
 			{searchResults.map(renderResult)}
         </ol>
-    
-		<button onClick={add}><i class="fa fa-search"></i>Add</button>
-		<button onClick={addAll}><i class="fa fa-search"></i>Add All</button>
-		<button onClick={remove}><i class="fa fa-search"></i>Remove</button>
-		<button onClick={removeAll}><i class="fa fa-search"></i>Remove All</button>
+
+		<button onClick={add}>Add</button>
+		<button onClick={addAll}>Add All</button>
+		<button onClick={remove}>Remove</button>
+		<button onClick={removeAll}>Remove All</button>
 		</>
 	);
 };
