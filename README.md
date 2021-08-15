@@ -1,4 +1,6 @@
-[NES Color Tool UI](https://github.com/eptgen/color-tool/blob/master/images/ui.png)
+![NES Color Tool UI](images/ui.png)
+
+The above screenshot illustrates a user changing Mario Bros to grayscale.
 
 To run the tool, first clone or download the repository.
 Then cd into the repository folder and run the following:
