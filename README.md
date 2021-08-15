@@ -1,11 +1,11 @@
 ![NES Color Tool UI](images/ui.png)
 
-The above screenshot illustrates a user changing Mario Bros to grayscale.
+The above screenshot illustrates a user changing the original Mario Bros. game (```Mario Bros. (World).nes```) to grayscale.
 
 To run the tool, first clone or download the repository.
 Then cd into the repository folder and run the following:
 
-### `npm start`
+### `npm install`
 
 Then start the tool using the following:
 
