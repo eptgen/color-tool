@@ -1,4 +1,4 @@
-[NES Color Tool UI](https://github.com/eptgen/color-tool/images/ui.png)
+[NES Color Tool UI](https://github.com/eptgen/color-tool/blob/master/images/ui.png)
 
 To run the tool, first clone or download the repository.
 Then cd into the repository folder and run the following:
