@@ -1,8 +1,18 @@
-Note: Need to do the following first:
+[NES Color Tool UI](https://github.com/eptgen/color-tool/images/ui.png)
+
+To run the tool, first clone or download the repository.
+Then cd into the repository folder and run the following:
 
 ### `npm start`
 
-Generic instructions for Reach Apps are below.
+Then start the tool using the following:
+
+### `npm start`
+
+This should run the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+
+Generic instructions for React Apps are given below.
 
 # Getting Started with Create React App
 
