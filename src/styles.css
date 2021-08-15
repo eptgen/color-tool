@@ -79,9 +79,9 @@ img {
 
 .grid-container {
     display: inline-grid;
-    grid-template-columns: auto auto auto auto auto auto auto auto;
+    grid-template-columns: auto auto auto auto auto auto;
     padding-top: 20px;
-    padding-left: 17%;
+    padding-left: 18%;
     font-family: 'Merriweather';
     font-size: 13px;
     color: #696969;

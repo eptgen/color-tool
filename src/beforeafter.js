@@ -1,4 +1,3 @@
-
 export default function renderBeforeAfter(palettesFound, currentPalettes, firstClicked, secondClicked, getNesColor, getTextColor) {
 
 	var getPaletteElement = (palette, paletteNum, isBefore) => {
