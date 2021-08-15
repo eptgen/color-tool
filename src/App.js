@@ -122,12 +122,14 @@ function App() {
 
 	var secondClicked = (e, color) => {
 		// console.log(palettesFound);
-		setCurrentPalettes(before => {
-			var result = [...before];
-			// console.log(result);
-			result[el[0]].data[el[1]] = color;
-			return result;
-		});
+		if (el) {
+			setCurrentPalettes(before => {
+				var result = [...before];
+				// console.log(result);
+				result[el[0]].data[el[1]] = color;
+				return result;
+			});
+		}
 	}
 
 	var getPickerElement = num => {
